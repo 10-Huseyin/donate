@@ -3,7 +3,12 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { history } from './helpers';
 import { alertActions } from './actions';
-import { PrivateRoute } from './components';
+import AdminLayout from "layouts/Admin.js";
+import {LoginPage} from "./login/LoginPage";
+import {RegisterPage} from "./Register/register";
+
+import { PrivateRoute } from './components/PrivateRoute';
+
 
 
 
@@ -25,13 +30,14 @@ class App extends React.Component {
                             <div className={`alert ${alert.type}`}>{alert.message}</div>
                         }
                        <Router history={history}>
-                            <Switch>
-                                <PrivateRoute exact path="/" component={Home} />
-                                <Route path="/login" component={LoginPage} />
-                                <Route path="/register" component={RegisterPage} />                             
-                                <Redirect from="*" to="/" />
-                            </Switch>
-                        </Router>
+                          <Switch>
+                            <Route path="/login" component={LoginPage} />
+                            {/* <PrivateRoute path="/admin" render={(props) => <AdminLayout {...props} />} /> */}
+                            <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+                            <Route path="/register" component={RegisterPage} />     
+                            <Redirect from="/" to="/admin/dashboard" />
+                          </Switch>
+                      </Router>
          </div>
 
         );
