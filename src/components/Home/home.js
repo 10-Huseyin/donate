@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link,Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from '../../actions';
 
@@ -7,7 +7,21 @@ import { userActions } from '../../actions';
 
 
 class Home extends React.Component {
-    
+  getRoutes(routes){
+    return routes.map((prop, key) => {
+      if (prop.layout === "/home") {
+        return (
+          <Route
+            path={prop.layout + prop.path}
+            render={(props) => <prop.component {...props} />}
+            key={key}
+          />
+        );
+      } else {
+        return null;
+      }
+    });
+  };
     componentDidMount() {
         this.props.getUsers();
     }
@@ -84,12 +98,14 @@ class Home extends React.Component {
             
             <div class="sidenav">
                     <h4 href="#" className="openbtn"> ☰ Donate Admin</h4>
+                    
                     <a href="/user"><span className="glyphicon glyphicon-user"></span>  User</a>
                     <a href="/post"><span className="glyphicon glyphicon-film"></span>  Post</a>
                     <a href="/newPost"><span className="glyphicon glyphicon-pencil"></span>  New Post</a>
                     
             </div>
             <div class="main">
+            <Switch>{getRoutes(routes)}</Switch>
             <h3>All registered users:</h3>
                           {users.loading && <em>Loading users...</em>}
                           {users.error && <span className="text-danger">ERROR: {users.error}</span>}
