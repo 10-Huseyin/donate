@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import UserList from '../components/Users/UserList';
+import { API_BASE } from '../config/env';
+import EditUserForm from '../components/Users/EditUserForm'
 import axios from 'axios';
 
-const url = 'https://mern-brothers.herokuapp.com/users'
+const url = `${API_BASE}users`;
 
 export default class Users extends Component {
   state = {
@@ -10,21 +12,22 @@ export default class Users extends Component {
     totalDocs: null,
     totalPages: null,
     nextPage: 0,
-    currentUser:{},
-    editedMessage:{}
+    currentUser: {},
+    editedMessage: {},
+    edit: false
   }
- 
+
   willEditUser = (id) => {
     axios.get(`${url}/info/${id}`)
       .then(result => result.data)
-      .then(data => this.setState({currentUser:data}))
+      .then(data => this.setState({ currentUser: data, edit: true }))
       .catch(err => err)
   }
 
   editUser = (id, roles, firstname, lastname, email, username, company, phone) => {
     axios.put(`${url}/${id}`, { roles, firstname, lastname, email, username, company, phone, is_deleted: false })
       .then(result => Object.assign({}, result.data, { id }))
-      .then(id => this.setState({editedMessage:{id:id}}))
+      .then(id => this.setState({ editedMessage: { id: id } }))
       .catch(err => console.log(err))
   }
   componentDidMount() {
@@ -36,11 +39,16 @@ export default class Users extends Component {
       this.fetchData();
     }
   }
-  // componentWillUpdate(nextProps) {
-  //   if (this.state.editedMessage.id !== nextProps.editedMessage.id) {
-  //     this.fetchData();
-  //   }
-  // }
+  componentWillUpdate(nextProps, nextState) {
+    // if (this.state.editedMessage.id !== nextProps.editedMessage.id) {
+    //   this.fetchData();
+    // }
+    if (this.state.currentUser !== nextState.currentUser) {
+      // this.fetchData();
+    }
+    // console.log("nextProps : ", nextProps)
+    // console.log("nextState : ", nextState)
+  }
 
 
   fetchData = () => {
@@ -64,32 +72,14 @@ export default class Users extends Component {
   }
 
   render() {
-
     return (
       <div>
-        <UserList {...this.state} fetchData={this.fetchData} changePage={this.changePage} deleteUser={this.deleteUser} willEditUser={this.willEditUser} />
+        {this.state.edit ? <EditUserForm willEditData={this.state.currentUser} editUser={this.editUser} /> : <UserList {...this.state} fetchData={this.fetchData} changePage={this.changePage} deleteUser={this.deleteUser} willEditUser={this.willEditUser} />}
+
+
       </div>
     )
   }
 }
 
 
-// {
-//   "roles": [
-//       {
-//           "_id": "605cc7b93c5e034bbc625e52"
-//       }
-//   ],
-//   "firstname": "degisti",
-//   "lastname": "degisti",
-//   "email": "degisti@test.com",
-//   "username": "degisti",
-//   "company": "degisticompany",
-//   "phone": null,
-//   "is_deleted": false
-// }
-
-
-// admin 605cc7b93c5e034bbc625e54
-// user 605cc7b93c5e034bbc625e52
-// mode 605cc7b93c5e034bbc625e53

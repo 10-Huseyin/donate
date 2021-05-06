@@ -22,9 +22,6 @@ export default class UserList extends Component {
       this.setState({ delete: false })
     }, 3000);
   }
-  showAlertUpdate = () => {
-    console.log("Merhaabavvvvvvvvvvvvvv")
-  }
 
   willDeleteUser = (id) => {
     this.setState({ willDelete: id })
@@ -77,15 +74,15 @@ export default class UserList extends Component {
                 <td>{user.lastname}</td>
                 <td>{user.last_login}</td>
                 <td>
-                  <Link to={`/user/edit/${user.id}`}>
-                    <button
-                      className="btn btn-success mr-2 gap-3"
-                      type="button"
-                      onClick={() => this.props.willEditUser(user.id)}
-                    >
-                      Edit
+                  {/* <Link to={`/user/edit/${user.id}`}> */}
+                  <button
+                    className="btn btn-success mr-2 gap-3"
+                    type="button"
+                    onClick={() => this.props.willEditUser(user.id)}
+                  >
+                    Edit
                     </button>
-                  </Link>
+                  {/* </Link> */}
                   <button
                     type="button"
                     onClick={() => this.willDeleteUser(user.id)}
@@ -120,7 +117,7 @@ export default class UserList extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <p>Are you sure you want to delete data?</p>
+                <p>Are you sure you want to delete user?</p>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
