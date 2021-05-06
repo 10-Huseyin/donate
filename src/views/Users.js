@@ -13,7 +13,6 @@ export default class Users extends Component {
     totalPages: null,
     nextPage: 0,
     currentUser: {},
-    editedMessage: {},
     edit: false
   }
 
@@ -27,8 +26,9 @@ export default class Users extends Component {
   editUser = (id, roles, firstname, lastname, email, username, company, phone) => {
     axios.put(`${url}/${id}`, { roles, firstname, lastname, email, username, company, phone, is_deleted: false })
       .then(result => Object.assign({}, result.data, { id }))
-      .then(id => this.setState({ editedMessage: { id: id } }))
+      .then(id => this.setState({ edit: false }))
       .catch(err => console.log(err))
+    this.fetchData()
   }
   componentDidMount() {
     this.fetchData();
@@ -38,18 +38,8 @@ export default class Users extends Component {
     if (this.state.nextPage !== prevState.nextPage) {
       this.fetchData();
     }
+    console.log("prevState : ", prevState)
   }
-  componentWillUpdate(nextProps, nextState) {
-    // if (this.state.editedMessage.id !== nextProps.editedMessage.id) {
-    //   this.fetchData();
-    // }
-    if (this.state.currentUser !== nextState.currentUser) {
-      // this.fetchData();
-    }
-    // console.log("nextProps : ", nextProps)
-    // console.log("nextState : ", nextState)
-  }
-
 
   fetchData = () => {
     axios.get(`${url}?page=${this.state.nextPage}`)
@@ -75,8 +65,6 @@ export default class Users extends Component {
     return (
       <div>
         {this.state.edit ? <EditUserForm willEditData={this.state.currentUser} editUser={this.editUser} /> : <UserList {...this.state} fetchData={this.fetchData} changePage={this.changePage} deleteUser={this.deleteUser} willEditUser={this.willEditUser} />}
-
-
       </div>
     )
   }

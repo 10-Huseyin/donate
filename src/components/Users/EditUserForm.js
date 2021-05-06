@@ -18,25 +18,6 @@ export default class EditUserForm extends Component {
     })
   }
 
-
-  // componentDidUpdate(prevProps) {
-  //   // Genel kullanım (prop değerlerini karşılaştırmayı unutmayınız!):
-  //   if (this.props.willEditData !== prevProps.willEditData) {
-  //     this.setState({
-  //       id: this.props.willEditData.id,
-  //       firstname: this.props.willEditData.firstname,
-  //       lastname: this.props.willEditData.lastname,
-  //       username: this.props.willEditData.username,
-  //       role: this.props.willEditData.roles[0].name,
-  //       email: this.props.willEditData.email,
-  //       is_deleted: this.props.willEditData.is_deleted.toString(),
-  //       company: this.props.willEditData.company,
-  //       phone: this.props.willEditData.phone,
-  //     })
-  //   }
-  //   console.log("prevProps : ", prevProps)
-  // }
-
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -154,7 +135,7 @@ export default class EditUserForm extends Component {
       <div className="container">
         <h2 className="display-4 bg-primary text-white">Edit User</h2>
         {
-          this.state.redirect ? <Redirect to="/users" /> : formContent
+          this.state.redirect ? <Redirect to="/admin/users" /> : formContent
         }
       </div>
     )

@@ -12,6 +12,9 @@ export default class UserList extends Component {
       })
     }
   }
+  componentDidMount() {
+    this.props.fetchData()
+  }
 
   showAlertDelete = () => {
     this.setState({ delete: true })
@@ -130,12 +133,4 @@ export default class UserList extends Component {
     )
   }
 }
-
-
-// const newPostList = this.state.posts.filter((P) => P.id !== myId);
-
-
-// .then(newPostList.length === 0 ? setTimeout(() => {
-//   window.location.reload()
-// }, 200)  : null)
 
