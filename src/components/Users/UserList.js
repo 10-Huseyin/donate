@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import BarLoader from "react-spinners/BarLoader"
 
 export default class UserList extends Component {
-  state = { delete: false, willDelete: "", data: [] }
+  state = { delete: false, willDelete: "", data: [], loading: false }
 
   componentDidUpdate(prevProps) {
     if (this.props.data !== prevProps.data) {
       this.setState({
-        data: this.props.data
+        data: this.props.data,
+        loading: true
       })
     }
   }
@@ -51,7 +53,6 @@ export default class UserList extends Component {
       <div>
         <Table striped bordered hover>
           {this.state.delete && alertDelete}
-          {/* {this.props.edited && setTimeout(() => (alertUpdate), 3000)} */}
           <thead>
             <tr>
               <th>Number</th>
@@ -64,6 +65,7 @@ export default class UserList extends Component {
               <th></th>
             </tr>
           </thead>
+          <BarLoader color={'#c6fc03'} loading={this.state.loading} />
           {users.map((user, index) => (
             <tbody>
               <tr key={index}>

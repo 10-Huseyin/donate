@@ -13,7 +13,7 @@ export default class Users extends Component {
     totalPages: null,
     nextPage: 0,
     currentUser: {},
-    edit: false
+    edit: false,
   }
 
   willEditUser = (id) => {
@@ -38,7 +38,6 @@ export default class Users extends Component {
     if (this.state.nextPage !== prevState.nextPage) {
       this.fetchData();
     }
-    console.log("prevState : ", prevState)
   }
 
   fetchData = () => {
@@ -46,7 +45,7 @@ export default class Users extends Component {
       .then(result => this.setState({
         data: result.data.docs,
         totalDocs: result.data.totalDocs,
-        totalPages: result.data.totalPages
+        totalPages: result.data.totalPages,
       }))
       .catch(err => err)
   }
