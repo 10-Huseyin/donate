@@ -133,7 +133,7 @@ export default class EditUserForm extends Component {
     return (
 
       <div className="container">
-        <h2 className="display-4 bg-primary text-white">Edit User</h2>
+        <h2 className="display-4 bg-light text-primary text-center">Edit User</h2>
         {
           this.state.redirect ? <Redirect to="/admin/users" /> : formContent
         }

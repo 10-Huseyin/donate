@@ -81,7 +81,7 @@ export default class UserList extends Component {
                 <td>
                   {/* <Link to={`/user/edit/${user.id}`}> */}
                   <button
-                    className="btn btn-success mr-2 gap-3"
+                    className="btn btn-sm btn-success mr-2 gap-3"
                     type="button"
                     onClick={() => this.props.willEditUser(user.id)}
                   >
@@ -92,7 +92,7 @@ export default class UserList extends Component {
                     type="button"
                     onClick={() => this.willDeleteUser(user.id)}
                     data-toggle="modal" data-target="#exampleModal"
-                    className="btn btn-danger mx-auto">
+                    className="btn btn-sm btn-danger mx-auto">
                     Delete
                   </button>
                 </td>
