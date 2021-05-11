@@ -36,7 +36,7 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/post",
+    path: "/posts",
     name: "Posts",
     icon: "nc-icon nc-paper-2",
     component: Posts,
@@ -44,7 +44,7 @@ const dashboardRoutes = [
   },
   {
     path: "/newpost",
-    name: "NewPost",
+    name: "New Post",
     icon: "nc-icon nc-atom",
     component: NewPost,
     layout: "/admin",

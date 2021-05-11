@@ -1,15 +1,13 @@
 import { Table, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { API_BASE } from "../config/env";
+import { API_BASE } from "../../config/env";
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import "../components/Posts/Posts.css";
-import PostsPagination from '../components/Posts/PostsPagination'
-import EditPosts from '../components/Posts/EditPosts'
-import PostsList from '../components/Posts/PostsList'
+import "./Posts.css";
+import PostsPagination from './PostsPagination';
 
-export default class Posts extends Component {
+export default class PostsList extends Component {
   constructor(props) {
     super(props);
 
@@ -26,35 +24,19 @@ export default class Posts extends Component {
     this.getData();
   }
 
-  editPost = (id) => {
-    console.log(id)
-    this.setState({
-      isedited: true,
-      currentPost: id,
-    });
-    console.log("currentPost=> ", this.state.currentPost)
-  }
-
 
   componentDidMount() {
     this.getData();
-    // this.editPost()
-  }
-
-  editedFalse = () => {
-    this.setState({ isedited: false })
   }
 
 
   handleDelete = (myId) => {
     const newPostList = this.state.posts.filter((P) => P.id !== myId);
-    console.log(newPostList);
-
+    // console.log(newPostList);
     this.setState({
       posts: newPostList,
       onSubmit: true
     });
-
     axios.put(`${API_BASE}posts/delete/${myId}`, {
     })
       .then(newPostList.length === 0 ? setTimeout(() => {
@@ -65,11 +47,10 @@ export default class Posts extends Component {
 
   handlePostPage = (e) => {
     const totalPage = this.state.totalPages
-    console.log(e.target.value)
+    // console.log(e.target.value)
     const currentPage = (e.target.value - 1)
     this.setState({ pageNumber: currentPage })
-    console.log(this.state.pageNumber)
-
+    // console.log(this.state.pageNumber)
     axios
       .get(`${API_BASE}posts/?page=${currentPage}`)
       .then((json) => this.setState({
@@ -79,28 +60,22 @@ export default class Posts extends Component {
       }))
   }
 
-
-
   getData() {
     axios
       .get(`${API_BASE}posts/?page=${this.state.pageNumber}`)
-      // .then((json) =>console.log(json.data.docs))
       .then((json) => this.setState({
         posts: json.data.docs,
         totalPages: json.data.totalPages
       }))
-      .then((json) => console.log(this.state.totalPages))
+      // .then((json) => console.log(this.state.totalPages))
   }
 
 
-
-
-
   render() {
-
+    // console.log(this.state.posts);
     return (
       <div>
-        {/* <Table striped bordered hover>
+        <Table striped bordered hover>
           <thead>
             <tr>
               <th>Number</th>
@@ -121,16 +96,15 @@ export default class Posts extends Component {
                 <td>{post.updated_at}</td>
                 <td>
                   <div className="d-flex">
-                    
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-success mr-2 gap-3"
-                        onClick={() => { this.editPost(post.id) }}
-                      >
-                        Edit
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-success mr-2 gap-3"
+                      onClick={() => { this.props.editPost(post.id) }}
+                    >
+                      Edit
                       </button>
-                    
-                    <Link to={`/`}>
+
+                    <Link to={`/admin/posts`}>
                       <button
                         type="button"
                         onClick={(event) => this.handleDelete(post.id)}
@@ -145,21 +119,13 @@ export default class Posts extends Component {
             </tbody>
           ))}
         </Table>
-   
-        
         <PostsPagination totalPages={this.state.totalPages} handlePostPage={this.handlePostPage}></PostsPagination>
-        
-          
         <div className="text-right mr-4">
           <Link to={`newpost/`}>
             <button className="btn btn-primary">Add New Post</button>
           </Link>
-        </div> */}
-        {/* <div> */}
-        {this.state.isedited ? <EditPosts id={this.state.currentPost} editedFalse={this.editedFalse} /> : <PostsList editPost={this.editPost} />}
-        {/* </div> */}
+        </div>
       </div>
-
     );
   }
 }

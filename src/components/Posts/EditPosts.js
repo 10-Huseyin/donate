@@ -1,34 +1,36 @@
-import React from "react";
+import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { API_BASE } from "../config/env";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { API_BASE } from "../../config/env";
 
+export default class editNewsCampaigns extends Component {
+  constructor(props) {
+    super(props);
 
-export default class NewPost extends React.Component {
-  state = {
-    posts: {
-      post_img_url: "",
-      donatee_img_url: "",
-      donatee_desc: "",
-      donatee_name: "",
-      title: "",
-      summary: "",
-      content: "",
-      created_at: new Date(),
-      updated_at: new Date(),
-      user_id: "",
-      post_type: "",
-      content_1: "",
-      content_2: "",
-      content_3: "",
-      content_4: "",
-      content_img_1: "",
-      content_img_2: "",
-      is_deleted: false,
-      onSubmit: false,
-    },
-  };
+    this.state = {
+      posts: {
+        post_img_url: "",
+        donatee_img_url: "",
+        donatee_desc: "",
+        donatee_name: "",
+        title: "",
+        summary: "",
+        content: "",
+        created_at: new Date(),
+        updated_at: new Date(),
+        user_id: "",
+        post_type: "",
+        content_1: "",
+        content_2: "",
+        content_3: "",
+        content_4: "",
+        content_img_1: "",
+        content_img_2: "",
+        is_deleted: false,
+        onSubmit: false,
+      },
+    };
+  }
 
   initialState = {
     posts: {
@@ -54,8 +56,38 @@ export default class NewPost extends React.Component {
     },
   };
 
+  componentWillMount() {
+    const id = this.props.id;
+    axios
+      .get(`${API_BASE}posts/${id}`)
+      .then((json) =>
+        this.setState({
+          posts: {
+            post_img_url: json.data.post_img_url,
+            donatee_img_url: json.data.donatee_img_url,
+            donatee_desc: json.data.donatee_desc,
+            donatee_name: json.data.donatee_name,
+            title: json.data.title,
+            summary: json.data.summary,
+            content: json.data.content,
+            created_at: json.data.created_at,
+            updated_at: json.data.updated_at,
+            user_id: json.data.user_id,
+            post_type: json.data.post_type,
+            content_1: json.data.content_1,
+            content_2: json.data.content_2,
+            content_3: json.data.content_3,
+            content_4: json.data.content_4,
+            content_img_1: json.data.content_img_1,
+            content_img_2: json.data.content_img_2,
+          },
+        })
+      )
+      // .then(console.log(this.state.posts));
+  }
+
   handlePostType = (e) => {
-    console.log("post type", e.target.value);
+    // console.log("post type", e.target.value);
     if (e.target.value === "1") {
       this.setState({ posts: { ...this.state.posts, post_type: true } });
     } else {
@@ -63,13 +95,13 @@ export default class NewPost extends React.Component {
     }
   };
 
-
-
   handlePostUrl = (event) => {
     const target = event.target;
     const { value } = target;
-    this.setState({ posts: { ...this.state.posts, post_img_url: value } });
-    console.log("post_img_url", value);
+    this.setState({
+      posts: { ...this.state.posts, post_img_url: value },
+    });
+    // console.log("post_img_url", value);
   };
 
   handleDonateeUrl = (event) => {
@@ -78,7 +110,7 @@ export default class NewPost extends React.Component {
     this.setState({
       posts: { ...this.state.posts, donatee_img_url: value },
     });
-    console.log("donatee_img_url", value);
+    // console.log("donatee_img_url", value);
   };
 
   handleDonateeDesc = (event) => {
@@ -87,35 +119,8 @@ export default class NewPost extends React.Component {
     this.setState({
       posts: { ...this.state.posts, donatee_desc: value },
     });
-    console.log("DONATEEE DESC", value);
-    console.log(this.state.posts);
-  };
-
-  handleContent1 = (event) => {
-    const target = event.target;
-    const { value } = target;
-    this.setState({
-      posts: { ...this.state.posts, content_1: value },
-    });
-    console.log("Content_1", value);
-  };
-
-  handleContent2 = (event) => {
-    const target = event.target;
-    const { value } = target;
-    this.setState({
-      posts: { ...this.state.posts, content_2: value },
-    });
-    console.log("Content_2", value);
-  };
-
-  handleContentImg1 = (event) => {
-    const target = event.target;
-    const { value } = target;
-    this.setState({
-      posts: { ...this.state.posts, content_img_1: value },
-    });
-    console.log("Content_img_1", value);
+    // console.log("DONATEEE DESC", value);
+    // console.log(this.state.posts);
   };
 
   handleDonateeName = (event) => {
@@ -124,8 +129,8 @@ export default class NewPost extends React.Component {
     this.setState({
       posts: { ...this.state.posts, donatee_name: value },
     });
-    console.log("DONATEEE NAME", value);
-    console.log(this.state.posts);
+    // console.log("DONATEEE NAME", value);
+    // console.log(this.state.posts);
   };
 
   handleTitle = (event) => {
@@ -134,10 +139,9 @@ export default class NewPost extends React.Component {
     this.setState({
       posts: { ...this.state.posts, title: value },
     });
-    console.log("TITLE", value);
-    console.log(this.state.posts);
+    // console.log("TITLE", value);
+    // console.log(this.state.posts);
   };
-
 
   handleSummary = (event) => {
     const target = event.target;
@@ -145,7 +149,34 @@ export default class NewPost extends React.Component {
     this.setState({
       posts: { ...this.state.posts, summary: value },
     });
-    console.log("Summary", value);
+    // console.log("Summary", value);
+  };
+
+  handleContent1 = (event) => {
+    const target = event.target;
+    const { value } = target;
+    this.setState({
+      posts: { ...this.state.posts, content_1: value },
+    });
+    // console.log("Content_1", value);
+  };
+
+  handleContent2 = (event) => {
+    const target = event.target;
+    const { value } = target;
+    this.setState({
+      posts: { ...this.state.posts, content_2: value },
+    });
+    // console.log("Content_2", value);
+  };
+
+  handleContentImg1 = (event) => {
+    const target = event.target;
+    const { value } = target;
+    this.setState({
+      posts: { ...this.state.posts, content_img_1: value },
+    });
+    // console.log("Content_img_1", value);
   };
 
   handleContent3 = (event) => {
@@ -154,7 +185,7 @@ export default class NewPost extends React.Component {
     this.setState({
       posts: { ...this.state.posts, content_3: value },
     });
-    console.log("Content_3", value);
+    // console.log("Content_3", value);
   };
 
   handleContent4 = (event) => {
@@ -163,7 +194,7 @@ export default class NewPost extends React.Component {
     this.setState({
       posts: { ...this.state.posts, content_4: value },
     });
-    console.log("Content_4", value);
+    // console.log("Content_4", value);
   };
 
   handleContentImg2 = (event) => {
@@ -172,33 +203,46 @@ export default class NewPost extends React.Component {
     this.setState({
       posts: { ...this.state.posts, content_img_2: value },
     });
-    console.log("Content_img_2", value);
+    // console.log("Content_img_2", value);
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    axios.post(`${API_BASE}posts`, { ...this.state.posts }).then((res) => {
-      console.log(res.data);
+    this.props.editedFalse();
+    const id = this.props.id;
+    axios.put(`${API_BASE}posts/${id}`, {
+      post_img_url: this.state.posts.post_img_url,
+      donatee_img_url: this.state.posts.donatee_img_url,
+      donatee_desc: this.state.posts.donatee_desc,
+      donatee_name: this.state.posts.donatee_name,
+      title: this.state.posts.title,
+      summary: this.state.posts.summary,
+      content: this.state.posts.content,
+      post_type: this.state.posts.post_type,
+      content_1: this.state.posts.content_1,
+      content_2: this.state.posts.content_2,
+      content_3: this.state.posts.content_3,
+      content_4: this.state.posts.content_4,
+      content_img_1: this.state.posts.content_img_1,
+      content_img_2: this.state.posts.content_img_2,
     });
-    this.setState(this.initialState)
-  }
-
+    this.setState(this.initialState);
+  };
 
   render() {
-    console.log("STATE:", this.state);
     return (
       <div className="container bg-light border border-5 border-primary p-5 text-center">
         <form onSubmit={this.handleSubmit} action={"../../../img/"}>
           <div className="mt-3">
             <div className="row">
               <div className="col-12 text-center">
-                <h1 className="text-primary">Add New Post</h1>
+                <h1 className="text-primary">Edit Post</h1>
               </div>
               <div className="col-12 text-center mt-3 mb-3">
                 <select
                   className="ui dropdown"
                   onChange={this.handlePostType}
-                  value={this.state.posts.type}
+                  value={this.state.posts.post_type ? "1" : "0"}
                 >
                   <option value="2">Select Post Type</option>
                   <option className="option1" value="1">
