@@ -1,5 +1,5 @@
 import { userConstants } from '../constants';
-import { userService } from '.././Service/user.service';
+import { userService } from '../Service/user.service';
 import { alertActions } from './alert.action';
 import { history } from '../helpers';
 
@@ -17,7 +17,7 @@ function login(username, password) {
 
         userService.login(username, password)
             .then(
-                user => { 
+                user => {
                     dispatch(success(user));
                     history.push('/admin/dashboard');
                 },
@@ -44,7 +44,7 @@ function register(user) {
 
         userService.register(user)
             .then(
-                user => { 
+                user => {
                     dispatch(success());
                     history.push('/login');
                     dispatch(alertActions.success('Registration successful'));
